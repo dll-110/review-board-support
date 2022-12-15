@@ -2,7 +2,7 @@ package com.guyazhou.plugin.reviewboard.vcsprovider.svn;
 
 import com.guyazhou.plugin.reviewboard.vcsprovider.AbstractVcsProvider;
 import com.intellij.openapi.diff.impl.patch.FilePatch;
-import com.intellij.openapi.diff.impl.patch.UnifiedDiffWriter;
+import com.intellij.openapi.diff.impl.patch.MyUnifiedDiffWriter;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.vcs.AbstractVcs;
 import com.intellij.openapi.vcs.FilePath;
@@ -99,8 +99,7 @@ public class SvnVcsProvider extends AbstractVcsProvider {
                     Method getUrl = info.getClass().getMethod("getURL");
                     remoteRootSVNURL = getUrl.invoke(info);
 
-                    Method getRepositoryRootSVNURL = info.getClass().getMethod("getRepositoryRootURL");
-                    repositoryRootSVNURL = getRepositoryRootSVNURL.invoke(info);
+                    repositoryRootSVNURL = info.getRepositoryRootUrl();
 
                 } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
                     throw new RuntimeException(e);
@@ -154,7 +153,7 @@ public class SvnVcsProvider extends AbstractVcsProvider {
         }
         try {
             StringWriter stringWriter = new StringWriter();
-            UnifiedDiffWriter.write(project, filePatchList, stringWriter, "\r\n", null);
+            MyUnifiedDiffWriter.write(project, filePatchList, stringWriter, "\r\n", null,this);
             stringWriter.close();
             return stringWriter.toString();
         } catch (IOException e) {

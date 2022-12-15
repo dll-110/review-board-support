@@ -116,6 +116,13 @@ public class ReviewBoardClient {
             reviewParams.setReviewId( String.valueOf(reviewRequestDraft.getReview_request().getId()) );
         }
 
+        // Update review request draft
+        progressIndicator.setText("Updating Review Request Draft");
+        DraftResponse draftResponse = this.updateReviewRequestDraft(reviewParams);
+        if (null == draftResponse) {
+            throw new RuntimeException("DraftResponse is null");
+        }
+
         // Uploading diffs
         progressIndicator.setText("Uploading Diffs");
         Response response = this.uploadDiffs(reviewParams);
@@ -126,15 +133,10 @@ public class ReviewBoardClient {
             throw new RuntimeException(response.getErr().getCode() + ": " + response.getErr().getMsg());
         }
 
-        // Update review request draft
-        progressIndicator.setText("Updating Review Request Draft");
-        DraftResponse draftResponse = this.updateReviewRequestDraft(reviewParams);
-        if (null == draftResponse) {
-            throw new RuntimeException("DraftResponse is null");
-        }
         if (!draftResponse.isOK()) {
             throw new RuntimeException(response.getErr().getCode() + ": " + response.getErr().getMsg());
         }
+
         return true;
     }
 
@@ -185,6 +187,7 @@ public class ReviewBoardClient {
         addParam(params, "target_people", reviewParams.getPerson());
         addParam(params, "target_groups", reviewParams.getGroup());
         addParam(params, "public", "1");    // make it public
+        addParam(params,"svnRoot",reviewParams.getSvnRoot());
 
         String responseJson = new HttpClient(headers).put(apiURL + "review-requests/" + reviewParams.getReviewId() + "/draft/", params);
 
@@ -280,7 +283,7 @@ public class ReviewBoardClient {
         headers.put("Cookie", cookie);
 
         Map<String, Object> params = new HashMap<>();
-        params.put("basedir", reviewParams.getSvnBasePath());
+        params.put("basedir", reviewParams.getSvnRoot());
         params.put("path", new DiffVirtualFile("review.diff", reviewParams.getDiff()));
 
         String responseJson = new HttpClient(headers).post(apiURL + "review-requests/" + reviewParams.getReviewId() + "/diffs/", params, true);

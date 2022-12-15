@@ -13,6 +13,7 @@ import com.intellij.openapi.progress.ProgressManager;
 import com.intellij.openapi.progress.Task;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.ui.Messages;
+import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,6 +32,7 @@ public class SubmitReviewRequestTask extends Task.Backgroundable {
     private boolean isSubmitSuccess = false;
 
     private ReviewParams reviewParams;
+
 
     SubmitReviewRequestTask(Project project, SubmitDialogForm submitDialogForm, VcsProvider vcsProvider) {
         super(project, "Submit Review Request", true);
@@ -56,6 +58,9 @@ public class SubmitReviewRequestTask extends Task.Backgroundable {
             reviewParams.setSvnBasePath("");
         } else {
             reviewParams.setSvnBasePath(vcsProvider.getWorkingCopyPathInRepository());
+        }
+        if (StringUtils.isEmpty(reviewParams.getSvnBasePath())) {
+            reviewParams.setSvnBasePath("/");
         }
         reviewParams.setSvnRoot(vcsProvider.getRepositoryURL());
         reviewParams.setDiff(vcsProvider.getDifferences());

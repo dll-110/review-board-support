@@ -1,9 +1,15 @@
 package com.guyazhou.plugin.reviewboard.http;
 
+import cn.hutool.core.io.FileUtil;
+import cn.hutool.http.ContentType;
+import cn.hutool.http.HttpRequest;
+import cn.hutool.http.HttpResponse;
 import com.guyazhou.plugin.reviewboard.model.DiffVirtualFile;
 
 import java.io.*;
 import java.net.*;
+import java.nio.charset.StandardCharsets;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 
@@ -17,7 +23,8 @@ public class HttpClient {
     private static final String MULTI_PART_BOUNDARY = "---------MULTIPART";
     private Map<String, String> headers;
 
-    public HttpClient() { }
+    public HttpClient() {
+    }
 
     public HttpClient(Map<String, String> headers) {
         this.headers = headers;
@@ -126,8 +133,8 @@ public class HttpClient {
     /**
      * Post a request to server with files
      *
-     * @param urlStr server url
-     * @param params params
+     * @param urlStr      server url
+     * @param params      params
      * @param isMultiPart post files if true, default false
      * @return response string
      */
@@ -143,7 +150,7 @@ public class HttpClient {
         if (null == urlStr || "".equals(urlStr) || null == params) {
             throw new RuntimeException("Url is empty or paramas is null");
         }
-        if ( 0 == params.size() ) {
+        if (0 == params.size()) {
             return null;
         }
         return this.requestSimply(urlStr, HTTP_METHOD.PUT, params);
@@ -172,14 +179,14 @@ public class HttpClient {
         }
         String postBody = "";
         for (Map.Entry<String, Object> entry : params.entrySet()) {
-            if ( !"".equals(postBody) ) {
-                postBody = postBody.concat( "&" + entry.getKey() + "=" + String.valueOf(entry.getValue()) );
+            if (!"".equals(postBody)) {
+                postBody = postBody.concat("&" + entry.getKey() + "=" + String.valueOf(entry.getValue()));
             } else {
                 postBody = entry.getKey() + "=" + String.valueOf(entry.getValue());
             }
         }
         try {
-            outputStream.write( postBody.getBytes("UTF-8") );
+            outputStream.write(postBody.getBytes("UTF-8"));
             outputStream.flush();
             outputStream.close();
         } catch (IOException e) {
@@ -205,10 +212,32 @@ public class HttpClient {
             throw new RuntimeException(e);
         }
 
-        String boundary = this.getBoundary();
-        this.setMultiPartHeader(httpURLConnection, boundary);
-        this.setPostData(httpURLConnection, params, boundary);
-        return this.buildResponseMessage(httpURLConnection);
+//        String boundary = this.getBoundary();
+//        this.setMultiPartHeader(httpURLConnection, boundary);
+//        this.setPostData(httpURLConnection, params, boundary);
+
+        HashMap<String, Object> paramMap = new HashMap<>();
+        File file = null;
+
+        for (Map.Entry<String, Object> entry : params.entrySet()) {
+            if (entry.getValue() instanceof File) {
+                file = (File) entry.getValue();
+            } else if (entry.getValue() instanceof DiffVirtualFile) {
+                DiffVirtualFile vfile = (DiffVirtualFile) entry.getValue();
+                File tmpFile = FileUtil.createTempFile();
+                file = FileUtil.writeString(vfile.getContent(), tmpFile, StandardCharsets.UTF_8);
+            } else {
+                paramMap.put(entry.getKey(), entry.getValue());
+            }
+        }
+        paramMap.put("path", file);
+
+        HttpResponse res = HttpRequest.post(urlStr)
+                .header("Content-Type", ContentType.MULTIPART.toString())
+                .addHeaders(this.headers)
+                .form(paramMap)
+                .execute();
+        return res.body();
     }
 
     /*
@@ -236,14 +265,14 @@ public class HttpClient {
      * Set post body data with file and plaintext
      *
      * @param httpURLConnection http url connection
-     * @param params params
-     * @param boundary boundary
+     * @param params            params
+     * @param boundary          boundary
      */
     private void setPostData(HttpURLConnection httpURLConnection, Map<String, Object> params, String boundary) {
-        if(null == httpURLConnection || null == params) {
+        if (null == httpURLConnection || null == params) {
             throw new RuntimeException("Connection or params is null");
         }
-        if( 0 != params.size() && null != boundary && !"".equals(boundary) ) {
+        if (0 != params.size() && null != boundary && !"".equals(boundary)) {
             OutputStream outputStream;
             try {
                 outputStream = httpURLConnection.getOutputStream();
@@ -269,7 +298,7 @@ public class HttpClient {
                             .append("Content-Disposition: form-data; name=\"").append(entry.getKey()).append("\"; filename=\"").append(fileName).append("\r\n")
                             .append("Content-Type: ").append(fileType).append("\r\n")
                             .append("\r\n")
-                            .append( this.getFileData(inputStream) ).append("\r\n");
+                            .append(this.getFileData(inputStream)).append("\r\n");
                 } else if (entry.getValue() instanceof DiffVirtualFile) {
                     DiffVirtualFile file = (DiffVirtualFile) entry.getValue();
                     String fileName = file.getName();
@@ -281,17 +310,17 @@ public class HttpClient {
                             .append("Content-Disposition: form-data; name=\"").append(entry.getKey()).append("\"; filename=\"").append(fileName).append("\"\r\n")
                             .append("Content-Type: ").append(fileType).append("\r\n")
                             .append("\r\n")
-                            .append( file.getContent() ).append("\r\n");
+                            .append(file.getContent()).append("\r\n");
                 } else {
                     postDataBuilder.append("--").append(boundary).append("\r\n")
                             .append("Content-Disposition: form-data; name=\"").append(entry.getKey()).append("\"\r\n")
                             .append("\r\n")
-                            .append( String.valueOf(entry.getValue()) ).append("\r\n");
+                            .append(String.valueOf(entry.getValue())).append("\r\n");
                 }
             }
             postDataBuilder.append("--").append(boundary).append("--");
             try {
-                outputStream.write( postDataBuilder.toString().getBytes("UTF-8") );
+                outputStream.write(postDataBuilder.toString().getBytes("UTF-8"));
                 outputStream.flush();
                 outputStream.close();
             } catch (IOException e) {
@@ -312,7 +341,7 @@ public class HttpClient {
         BufferedReader reader = new BufferedReader(new InputStreamReader(inputstream));
         String line;
         try {
-            while ( (line = reader.readLine()) != null ) {
+            while ((line = reader.readLine()) != null) {
                 fileDataBuilder.append(line);
             }
         } catch (IOException e) {
@@ -336,6 +365,7 @@ public class HttpClient {
 
     /**
      * Get multipart boundary
+     *
      * @return multipart boundary string
      */
     private String getBoundary() {
@@ -346,7 +376,7 @@ public class HttpClient {
      * Set multipart header
      *
      * @param httpURLConnection connection
-     * @param boundary boundary
+     * @param boundary          boundary
      */
     private void setMultiPartHeader(HttpURLConnection httpURLConnection, String boundary) {
         if (null == boundary) {
