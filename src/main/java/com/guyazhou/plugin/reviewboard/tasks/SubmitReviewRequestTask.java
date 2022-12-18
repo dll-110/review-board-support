@@ -54,6 +54,7 @@ public class SubmitReviewRequestTask extends Task.Backgroundable {
         reviewParams.setPerson(submitDialogForm.getPeople());
         reviewParams.setDescription(submitDialogForm.getDescription());
         reviewParams.setRepositoryId( String.valueOf(submitDialogForm.getSelectedRepositoryId()) );
+        reviewParams.setDraft(submitDialogForm.isDraft());
         if (null == vcsProvider.getWorkingCopyPathInRepository()) {
             reviewParams.setSvnBasePath("");
         } else {

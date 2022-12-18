@@ -1,8 +1,8 @@
-<idea-plugin url="https://github.com/asiaon123/review-board-support">
-    <id>com.guyazhou.tools.plugin.reviewboard</id>
-    <name>Review Board Support</name>
+<idea-plugin url="https://github.com/dll-110/review-board-support">
+    <id>com.dll.tools.plugin.reviewboard</id>
+    <name>Review Board Support Plus</name>
     <category>TOOLS INTEGRATION</category>
-    <vendor email="asiaon123@gmail.com" url="https://github.com/asiaon123/review-board-support">asiaon123</vendor>
+    <vendor email="1035304449@qq.com" url="https://github.com/dll-110/review-board-support">大雷雷</vendor>
 
     <depends>com.intellij.modules.lang</depends>
     <depends>com.intellij.modules.vcs</depends>

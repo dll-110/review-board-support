@@ -77,6 +77,8 @@ public class ReviewParams {
      */
     private String repositoryId;
 
+    private boolean draft;
+
     public String getServerURL() {
         return serverURL;
     }
@@ -187,5 +189,13 @@ public class ReviewParams {
 
     public void setRepositoryId(String repositoryId) {
         this.repositoryId = repositoryId;
+    }
+
+    public boolean isDraft() {
+        return draft;
+    }
+
+    public void setDraft(boolean draft) {
+        this.draft = draft;
     }
 }

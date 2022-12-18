@@ -84,7 +84,7 @@ public class ReviewBoardClient {
         }
         String username = state.getUsername();
         String password = state.getPassword();
-        if(null == username || null == password) {
+        if (null == username || null == password) {
             // TODO pop up login dialog
             throw new RuntimeException("Username or password is empty");
         }
@@ -97,7 +97,7 @@ public class ReviewBoardClient {
     /**
      * Post submit to review board server
      *
-     * @param reviewParams review params
+     * @param reviewParams      review params
      * @param progressIndicator indicator
      * @return true if success, otherwise false
      */
@@ -113,7 +113,7 @@ public class ReviewBoardClient {
             } else if (!reviewRequestDraft.isOK()) {
                 throw new RuntimeException(reviewRequestDraft.getErr().getCode() + ": " + reviewRequestDraft.getErr().getMsg());
             }
-            reviewParams.setReviewId( String.valueOf(reviewRequestDraft.getReview_request().getId()) );
+            reviewParams.setReviewId(String.valueOf(reviewRequestDraft.getReview_request().getId()));
         }
 
         // Update review request draft
@@ -126,10 +126,16 @@ public class ReviewBoardClient {
         // Uploading diffs
         progressIndicator.setText("Uploading Diffs");
         Response response = this.uploadDiffs(reviewParams);
+        /**
+         * 判断是否草搞，如果没有勾选，就不是草稿需要publish
+         */
+        if (!reviewParams.isDraft()) {
+            this.publishReviewRequest(reviewParams.getReviewId());
+        }
         if (null == response) {
             throw new RuntimeException("Response is null");
         }
-        if(!response.isOK()) {
+        if (!response.isOK()) {
             throw new RuntimeException(response.getErr().getCode() + ": " + response.getErr().getMsg());
         }
 
@@ -142,10 +148,11 @@ public class ReviewBoardClient {
 
     /**
      * Create a new review request draft in review board server
+     *
      * @return a NewReviewRequestResonse instance transformed from review board server
      */
     private ReviewRequestDraft createNewReviewRequest(String repositoryId) {
-        if(null == repositoryId) {
+        if (null == repositoryId) {
             return null;
         }
         String cookie;
@@ -163,6 +170,25 @@ public class ReviewBoardClient {
 
         Gson gson = new Gson();
         return gson.fromJson(responseJson, ReviewRequestDraft.class);
+    }
+
+    /**
+     * Updates the status of the review request.
+     */
+    public DraftResponse publishReviewRequest(String reviewRequestId) {
+
+        Map<String, Object> parameters = new HashMap<>();
+
+        parameters.put("public", "1");
+
+        Map<String, String> headers = new HashMap<>();
+        headers.put("Cookie", this.getCookie());
+
+        String responseJson = new HttpClient(headers).put(apiURL + "review-requests/" + reviewRequestId + "/draft/", parameters);
+
+        Gson gson = new Gson();
+        DraftResponse draftResponse = gson.fromJson(responseJson, DraftResponse.class);
+        return draftResponse;
     }
 
     /**
@@ -187,7 +213,7 @@ public class ReviewBoardClient {
         addParam(params, "target_people", reviewParams.getPerson());
         addParam(params, "target_groups", reviewParams.getGroup());
         addParam(params, "public", "1");    // make it public
-        addParam(params,"svnRoot",reviewParams.getSvnRoot());
+        addParam(params, "svnRoot", reviewParams.getSvnRoot());
 
         String responseJson = new HttpClient(headers).put(apiURL + "review-requests/" + reviewParams.getReviewId() + "/draft/", params);
 
@@ -252,9 +278,10 @@ public class ReviewBoardClient {
 
     /**
      * Put a key-value to map
+     *
      * @param params map
-     * @param key key
-     * @param value value
+     * @param key    key
+     * @param value  value
      */
     private void addParam(Map<String, Object> params, String key, String value) {
         if (null == params || null == key || null == value || "".equals(value)) {
@@ -295,7 +322,7 @@ public class ReviewBoardClient {
     /**
      * Review board login based basic(username:password)
      *
-     * @param urlStr reviewboard server
+     * @param urlStr   reviewboard server
      * @param username username
      * @param password password
      * @return cookie
@@ -314,7 +341,7 @@ public class ReviewBoardClient {
             throw new RuntimeException("Open connection fails");
         }
         HttpURLConnection httpURLConnection = (HttpURLConnection) urlConnection;
-        httpURLConnection.setRequestProperty("Authorization", "Basic " + Base64.getEncoder().encodeToString( (username + ":" + password).getBytes() ));
+        httpURLConnection.setRequestProperty("Authorization", "Basic " + Base64.getEncoder().encodeToString((username + ":" + password).getBytes()));
         httpURLConnection.setInstanceFollowRedirects(false);
 
         int responseCode;
@@ -334,7 +361,7 @@ public class ReviewBoardClient {
             inputStream = httpURLConnection.getInputStream();
             bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
             String line;
-            while ( (line = bufferedReader.readLine()) != null ) {  // TODO improve the performance when network is bad
+            while ((line = bufferedReader.readLine()) != null) {  // TODO improve the performance when network is bad
                 stringBuilder.append(line);
             }
         } catch (IOException e) {
