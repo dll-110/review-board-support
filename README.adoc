@@ -9,7 +9,7 @@ TO BE MODIFIED
 === Prerequisite
 
 * Review board version (Web API &gt;= `2.0`)
-* IntelliJ IDEA version (`171.0 ~`)
+* IntelliJ IDEA version (`211.0 ~`)
 
 === Features
 
