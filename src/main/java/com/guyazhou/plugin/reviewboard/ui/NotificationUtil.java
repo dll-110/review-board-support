@@ -8,8 +8,6 @@ import com.intellij.openapi.project.Project;
  */
 public class NotificationUtil {
 
-    private static NotificationGroup NOTIFICATIONS = new NotificationGroup("review-board-support",
-            NotificationDisplayType.STICKY_BALLOON, true);
 
     public static void notifyInfomationNotifaction(String title, String content, Project project) {
         notifyNotification(title, content, NotificationType.INFORMATION, project);
@@ -24,11 +22,7 @@ public class NotificationUtil {
     }
 
     private static void notifyNotification(String title, String content, NotificationType notificationType, Project project) {
-        Notifications.Bus.notify(NOTIFICATIONS.createNotification(title, content, notificationType,
-                new NotificationListener.UrlOpeningListener(false)), project);
-
-        // This will show info at left-down
-//        PopupUtil.showBalloonForActiveFrame(content, MessageType.INFO);
+        Notifications.Bus.notifyAndHide(new Notification(title,content,NotificationType.INFORMATION));
     }
 
 }

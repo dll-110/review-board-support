@@ -34,6 +34,7 @@ public class SubmitDialogForm extends DialogWrapper {
     private TextFieldWithStoredHistory peopleField;
     private ComboBoxWithHistory descriptionHistory;
     private JTextArea descriptionArea;
+    private JCheckBox chxDraft;
 
     private void createUIComponents() {
         summaryField = new TextFieldWithStoredHistory("reviewboard.summary");
@@ -211,6 +212,10 @@ public class SubmitDialogForm extends DialogWrapper {
 
     public String getDescription() {
         return descriptionArea.getText().trim();
+    }
+
+    public boolean isDraft() {
+        return chxDraft.isSelected();
     }
 
     public int getSelectedRepositoryId() {
