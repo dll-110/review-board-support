@@ -1,6 +1,5 @@
 plugins {
     id "java"
-//    id "org.jetbrains.intellij" version "1.10.1"
     id "org.jetbrains.intellij" version "0.4.18"
 }
 
@@ -18,13 +17,9 @@ apply plugin: 'idea'
 apply plugin: 'org.jetbrains.intellij'
 apply plugin: 'java'
 
-
 dependencies {
 //    testCompile group: 'junit', name: 'junit', version: '4.12'
     implementation 'cn.hutool:hutool-all:5.8.10'
-//    implementation 'org.jetbrains.kotlin:kotlin-gradle-plugin:1.7.22'
-//    implementation 'org.jetbrains.intellij.plugins:gradle-intellij-plugin:1.10.1'
-//    classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.7.22"
 }
 
 intellij {
@@ -113,7 +108,7 @@ patchPluginXml {
         Find repository at File -> Settings -> Plugins, click setting button and selecte install plugin from disk and use the zip file befor you download .
         
         <ul>
-            <li><a href="https://github.com/dll-110/review-board-support/blob/master/README.md">Usage</a></li>
+            <li><a href="https://github.com/dll-110/review-board-support/blob/master/README.MD">Usage</a></li>
             <li><a href="https://github.com/dll-110/review-board-support/issues">Issues</a></li>
         </ul>
     """
