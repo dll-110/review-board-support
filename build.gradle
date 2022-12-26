@@ -24,7 +24,7 @@ dependencies {
 
 intellij {
     pluginName = 'review-board-support-plus'
-    version = '2021.2.2'
+    version = '2021.1.3'
 //    version = '2019.3.3'
     plugins = ['coverage', 'svn4idea', 'git4idea']
 }
@@ -35,6 +35,9 @@ patchPluginXml {
     version = version
 
     changeNotes = """
+
+    <h4>3.0.8</h4>
+    <ol>remove deprecated API</ol>
 
     <h4>3.0.7</h4>
     <ol>remove deprecated API</ol>

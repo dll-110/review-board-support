@@ -24,8 +24,6 @@ public class DialogUtil {
 
         dialogBuilder.addOkAction().setText(okText);
         dialogBuilder.addCancelAction().setText(cancelText);
-        dialogBuilder.setButtonsAlignment(SwingConstants.CENTER);
-
         return dialogBuilder.show();
     }
 

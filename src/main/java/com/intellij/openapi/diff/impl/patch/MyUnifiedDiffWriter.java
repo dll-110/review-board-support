@@ -1,21 +1,19 @@
 // Copyright 2000-2020 JetBrains s.r.o. Use of this source code is governed by the Apache 2.0 license that can be found in the LICENSE file.
 package com.intellij.openapi.diff.impl.patch;
 
+import cn.hutool.core.util.StrUtil;
+import com.guyazhou.plugin.reviewboard.utils.StringUtil;
 import com.guyazhou.plugin.reviewboard.vcsprovider.svn.SvnVcsProvider;
 import com.intellij.openapi.project.Project;
-import com.intellij.openapi.util.io.FileUtil;
-import com.intellij.openapi.util.text.StringUtil;
 import com.intellij.openapi.vcs.changes.CommitContext;
 import com.intellij.openapi.vcs.changes.patch.GitPatchWriter;
 import com.intellij.openapi.vcs.changes.patch.SvnPatchWriter;
 import com.intellij.project.ProjectKt;
-import com.intellij.util.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.Writer;
 import java.nio.file.Path;
@@ -76,19 +74,21 @@ public final class MyUnifiedDiffWriter {
         // because GitPatchReader is not ready for mixed style patches
         List<FilePatch> noContentPatches = new ArrayList<>();
         for (FilePatch filePatch : patches) {
-            if (!(filePatch instanceof TextFilePatch)) continue;
+            if (!(filePatch instanceof TextFilePatch)) {
+                continue;
+            }
             TextFilePatch patch = (TextFilePatch) filePatch;
             if (patch.hasNoModifiedContent()) {
                 noContentPatches.add(patch);
                 continue;
             }
-            String path = ObjectUtils.chooseNotNull(patch.getAfterName(), patch.getBeforeName());
+            String path = patch.getAfterName() == null? patch.getBeforeName() : patch.getAfterName();
             String pathRelatedToProjectDir = getPathRelatedToProjectDir(project, basePath, path);
             Map<String, CharSequence> additionalMap = new HashMap<>();
             if (project != null) {
                 for (PatchEP extension : (patchEpExtensions == null ? PatchEP.EP_NAME.getExtensionList() : patchEpExtensions)) {
                     CharSequence charSequence = extension.provideContent(project, pathRelatedToProjectDir, commitContext);
-                    if (!StringUtil.isEmpty(charSequence)) {
+                    if (charSequence !=null && !charSequence.equals("")) {
                         additionalMap.put(extension.getName(), charSequence);
                     }
                 }
@@ -117,7 +117,7 @@ public final class MyUnifiedDiffWriter {
                             break;
                     }
                     String text = line.getText();
-                    text = StringUtil.trimEnd(text, "\n");
+                    text =  StrUtil.trimEnd(text);
                     writeLine(writer, text, prefixChar);
                     if (line.isSuppressNewLine()) {
                         // do not use fileContentLineSeparator here, as this line has no own separator
@@ -134,14 +134,15 @@ public final class MyUnifiedDiffWriter {
     }
 
     private static String getPathRelatedToProjectDir(@Nullable Project project, @Nullable Path patchBasePath, @NotNull String filePath) {
-        if (project == null || patchBasePath == null) return filePath;
+        if (project == null || patchBasePath == null) {
+            return filePath;
+        }
         String newBaseDir = project.getBasePath();
-        if (newBaseDir == null) return filePath;
-        String relativePath = FileUtil.getRelativePath(new File(newBaseDir), new File(patchBasePath.toString(), filePath));
-        if (relativePath == null) return filePath;
-        return relativePath;
+        if (newBaseDir == null) {
+            return filePath;
+        }
+        return filePath;
     }
-
     private static void writeFileHeading(@NotNull final Writer writer,
                                          @Nullable Path basePath,
                                          @NotNull final FilePatch patch,
@@ -200,7 +201,7 @@ public final class MyUnifiedDiffWriter {
         writer.write(prefix + " ");
         writer.write(revisionPath);
         writer.write("\t");
-        if (!StringUtil.isEmptyOrSpaces(revisionName)) {
+        if (revisionName!=null && !revisionName.trim().equals("")) {
             writer.write(revisionName);
         }
         writer.write(lineSeparator);

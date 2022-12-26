@@ -10,8 +10,6 @@ import com.intellij.util.ui.ComboBoxWithHistory;
 import org.jetbrains.annotations.Nullable;
 
 import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 /**
  * Submit form
@@ -40,14 +38,15 @@ public class SubmitDialogForm extends DialogWrapper {
         summaryField = new TextFieldWithStoredHistory("reviewboard.summary");
         groupsFiled = new TextFieldWithStoredHistory("reviewboard.groups");
         peopleField = new TextFieldWithStoredHistory("reviewboard.people");
-        descriptionHistory = new ComboBoxWithHistory("reviewboard.description");    // TODO
+        // TODO
+        descriptionHistory = new ComboBoxWithHistory("reviewboard.description");
     }
 
     /**
      * Inner class of item to the combobox for repositories
      */
     public static class RepositoryComboBoxItem {
-        private Repository repository;
+        private final Repository repository;
 
         private RepositoryComboBoxItem(Repository repository) {
             this.repository = repository;
@@ -65,7 +64,7 @@ public class SubmitDialogForm extends DialogWrapper {
 
     protected SubmitDialogForm(@Nullable Project project, Repository[] repositories, int possibleRepositoryIndex) {
         super(project);
-
+        System.out.println(descriptionHistory.getSelectedIndex());
         // initialize
         this.setTitle("Submit Review Request");
         for (Repository repository : repositories) {
@@ -80,37 +79,23 @@ public class SubmitDialogForm extends DialogWrapper {
 
         this.loadPresetAttributes();
 
-        newRequestRadioButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                newRequestButtonSelected();
-            }
-        });
-        existingRequestRadioButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                newRequestRadioButton.setSelected(false);
-                existReviewIdField.setEnabled(true);
-                loadReviewInfoButton.setEnabled(true);
-            }
+        newRequestRadioButton.addActionListener(e -> newRequestButtonSelected());
+        existingRequestRadioButton.addActionListener(e -> {
+            newRequestRadioButton.setSelected(false);
+            existReviewIdField.setEnabled(true);
+            loadReviewInfoButton.setEnabled(true);
         });
 
         super.setOKButtonText("Submit");
         super.init();
 
         // Show Diff Button
-        showDiffButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                // TODO
-            }
+        showDiffButton.addActionListener(e -> {
+            // TODO
         });
         // Load Review Info Button
-        loadReviewInfoButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                // TODO
-            }
+        loadReviewInfoButton.addActionListener(e -> {
+            // TODO
         });
     }
 
@@ -180,6 +165,7 @@ public class SubmitDialogForm extends DialogWrapper {
 
     /**
      * Is new request
+     *
      * @return true if is new request, otherwise false
      */
     public boolean isNewRequest() {

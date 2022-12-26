@@ -13,7 +13,11 @@
         <toolWindow id="My Sample Tool Window" icon="/icons/logo.png" anchor="bottom" factoryClass="com.guyazhou.plugin.reviewboard.toolswindow.ReviewPanelToolWindowFactory"/>
         <applicationService serviceImplementation="com.guyazhou.plugin.reviewboard.setting.ReviewBoardSetting"/>
         <applicationConfigurable instance="com.guyazhou.plugin.reviewboard.setting.ReviewBoardSetting"/>
+        <notificationGroup id="review-board-support"
+                           displayType="BALLOON"
+                           key="notification.group.name"/>
     </extensions>
+
 
     <actions>
         <action id="PreCommitAction" class="com.guyazhou.plugin.reviewboard.actions.ReviewAction" text="Pre-Commit" icon="/icons/logo.png" description="Pre-commit a review request to review board server">
@@ -22,5 +26,7 @@
             <add-to-group group-id="EditorPopupMenu" anchor="first"/>
         </action>
     </actions>
+
+
 
 </idea-plugin>

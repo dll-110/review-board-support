@@ -8,8 +8,10 @@ import com.intellij.openapi.project.Project;
  */
 public class NotificationUtil {
 
+    private static NotificationGroup NOTIFICATIONS = NotificationGroupManager.getInstance()
+            .getNotificationGroup("review-board-support");
 
-    public static void notifyInfomationNotifaction(String title, String content, Project project) {
+    public static void notifyInformationNotifaction(String title, String content, Project project) {
         notifyNotification(title, content, NotificationType.INFORMATION, project);
     }
 
@@ -22,7 +24,12 @@ public class NotificationUtil {
     }
 
     private static void notifyNotification(String title, String content, NotificationType notificationType, Project project) {
-        Notifications.Bus.notifyAndHide(new Notification(title,content,NotificationType.INFORMATION));
+
+        NotificationGroupManager.getInstance()
+                .getNotificationGroup("review-board-support")
+                .createNotification(title, content, notificationType)
+                .notify(project);
+
     }
 
 }

@@ -105,7 +105,7 @@ public class SubmitReviewRequestTask extends Task.Backgroundable {
             autoReview(reviewUrl);
         } else {
             String successInfoMsg = String.format("Review ID: %s<br/>Review URL: <a href=\"%s\">%s</a>", reviewParams.getReviewId(), reviewUrl, reviewUrl);
-            NotificationUtil.notifyInfomationNotifaction("Submit Review Successfully", successInfoMsg, project);
+            NotificationUtil.notifyInformationNotifaction("Submit Review Successfully", successInfoMsg, project);
         }
 
     }
@@ -125,7 +125,7 @@ public class SubmitReviewRequestTask extends Task.Backgroundable {
             ProgressManager.getInstance().run(new AutoShipTask(project, reviewUrl, reviewParams));
         } else {
             title = "Submit Review Successfully";
-            NotificationUtil.notifyInfomationNotifaction(title,
+            NotificationUtil.notifyInformationNotifaction(title,
                     String.format("Review ID: %s<br/>Review URL: <a href=\"%s\">%s</a>", reviewParams.getReviewId(), reviewUrl, reviewUrl), project);
         }
 

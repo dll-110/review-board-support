@@ -49,7 +49,7 @@ public class AutoShipTask extends Task.Backgroundable {
         } else {
             title = "Auto Ship Error";
         }
-        NotificationUtil.notifyInfomationNotifaction(title,
+        NotificationUtil.notifyInformationNotifaction(title,
                 String.format("Review ID: %s<br/>Review URL: <a href=\"%s\">%s</a>", reviewParams.getReviewId(), reviewUrl, reviewUrl), project);
     }
 

@@ -5,6 +5,8 @@ Helping submit review request to review board from IDEA directly.
 == How To Run
 
 ### changed list
+    3.0.8
+        remove deprecated API
     3.0.7
         remove deprecated API
 
