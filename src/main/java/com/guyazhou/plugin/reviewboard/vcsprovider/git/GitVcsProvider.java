@@ -4,12 +4,12 @@ import com.guyazhou.plugin.reviewboard.vcsprovider.AbstractVcsProvider;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.vcs.AbstractVcs;
 import com.intellij.openapi.vfs.VirtualFile;
-import git4idea.GitUtil;
-import git4idea.commands.Git;
-import git4idea.commands.GitCommand;
-import git4idea.commands.GitCommandResult;
-import git4idea.commands.GitLineHandler;
-import git4idea.repo.GitRepository;
+//import git4idea.GitUtil;
+//import git4idea.commands.Git;
+//import git4idea.commands.GitCommand;
+//import git4idea.commands.GitCommandResult;
+//import git4idea.commands.GitLineHandler;
+//import git4idea.repo.GitRepository;
 
 import java.util.List;
 
@@ -30,14 +30,14 @@ public class GitVcsProvider extends AbstractVcsProvider {
     protected void setRepositoryRootAndWorkingCopyPath(Project project, List<VirtualFile> virtualFiles) {
 
         for (VirtualFile virtualFile : virtualFiles) {
-            if (null != virtualFile) {
-                virtualFile.refresh(false, true);
-                GitRepository gitRepository = GitUtil.getRepositoryManager(project).getRepositoryForFile(virtualFile); // TODO set project
-                assert gitRepository != null;
-                repositoryURL = gitRepository.getRemotes().iterator().next().getFirstUrl();
-                workingCopy = gitRepository.getRoot();
-                break;
-            }
+//            if (null != virtualFile) {
+//                virtualFile.refresh(false, true);
+//                GitRepository gitRepository = GitUtil.getRepositoryManager(project).getRepositoryForFile(virtualFile); // TODO set project
+//                assert gitRepository != null;
+//                repositoryURL = gitRepository.getRemotes().iterator().next().getFirstUrl();
+//                workingCopy = gitRepository.getRoot();
+//                break;
+//            }
         }
 
     }
@@ -50,16 +50,17 @@ public class GitVcsProvider extends AbstractVcsProvider {
 //            }
 //        });
 
-        GitLineHandler handler = new GitLineHandler(project, workingCopy, GitCommand.DIFF);
-        handler.addParameters("HEAD");
-        handler.setSilent(true);
-        handler.setStdoutSuppressed(true);
-        handler.addParameters("--full-index");
-        handler.addRelativeFiles(virtualFiles);
-
-        Git git = Git.getInstance();
-        GitCommandResult gitCommandResult = git.runCommand(handler);
-        return gitCommandResult.getOutputAsJoinedString();
+//        GitLineHandler handler = new GitLineHandler(project, workingCopy, GitCommand.DIFF);
+//        handler.addParameters("HEAD");
+//        handler.setSilent(true);
+//        handler.setStdoutSuppressed(true);
+//        handler.addParameters("--full-index");
+//        handler.addRelativeFiles(virtualFiles);
+//
+//        Git git = Git.getInstance();
+//        GitCommandResult gitCommandResult = git.runCommand(handler);
+//        return gitCommandResult.getOutputAsJoinedString();
+        return "";
     }
 
 

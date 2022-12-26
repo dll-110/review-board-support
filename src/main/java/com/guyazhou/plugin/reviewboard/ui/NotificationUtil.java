@@ -27,7 +27,7 @@ public class NotificationUtil {
 
         NotificationGroupManager.getInstance()
                 .getNotificationGroup("review-board-support")
-                .createNotification(title, content, notificationType)
+                .createNotification(content, notificationType)
                 .notify(project);
 
     }

@@ -1,10 +1,8 @@
 package com.guyazhou.plugin.reviewboard.setting;
 
 import com.guyazhou.plugin.reviewboard.forms.ReviewBoardSettingForm;
-import com.intellij.openapi.components.PersistentStateComponent;
-import com.intellij.openapi.components.ServiceManager;
-import com.intellij.openapi.components.State;
-import com.intellij.openapi.components.Storage;
+import com.intellij.openapi.application.ApplicationManager;
+import com.intellij.openapi.components.*;
 import com.intellij.openapi.options.Configurable;
 import com.intellij.util.xmlb.XmlSerializerUtil;
 import org.jetbrains.annotations.Nls;
@@ -22,6 +20,7 @@ import javax.swing.*;
         name = "com.guyazhou.tools.plugin.reviewboard.setting",
         storages = {@Storage("review-board-support.xml")}
 )
+@Service
 public class ReviewBoardSetting implements PersistentStateComponent<ReviewBoardSetting.State>, Configurable {
 
     private static final String DISPLAY_NAME = "Review Board";
@@ -37,7 +36,9 @@ public class ReviewBoardSetting implements PersistentStateComponent<ReviewBoardS
      * @return A configured ReviewBoardSetting instance
      */
     public static ReviewBoardSetting getInstance() {
-        return ServiceManager.getService(ReviewBoardSetting.class);
+        ReviewBoardSetting settingService =
+                ApplicationManager.getApplication().getService(ReviewBoardSetting.class);
+        return settingService;
     }
 
     /**

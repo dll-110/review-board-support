@@ -19,7 +19,7 @@ apply plugin: 'java'
 
 dependencies {
 //    testCompile group: 'junit', name: 'junit', version: '4.12'
-    implementation 'cn.hutool:hutool-all:5.8.10'
+    implementation 'cn.hutool:hutool-http:5.8.10'
 }
 
 intellij {

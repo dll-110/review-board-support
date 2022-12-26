@@ -10,7 +10,7 @@
     <depends>Git4Idea</depends>
 
     <extensions defaultExtensionNs="com.intellij">
-        <toolWindow id="My Sample Tool Window" icon="/icons/logo.png" anchor="bottom" factoryClass="com.guyazhou.plugin.reviewboard.toolswindow.ReviewPanelToolWindowFactory"/>
+<!--        <toolWindow id="My Sample Tool Window" icon="/icons/logo.png" anchor="bottom" factoryClass="com.guyazhou.plugin.reviewboard.toolswindow.ReviewPanelToolWindowFactory"/>-->
         <applicationService serviceImplementation="com.guyazhou.plugin.reviewboard.setting.ReviewBoardSetting"/>
         <applicationConfigurable instance="com.guyazhou.plugin.reviewboard.setting.ReviewBoardSetting"/>
         <notificationGroup id="review-board-support"
