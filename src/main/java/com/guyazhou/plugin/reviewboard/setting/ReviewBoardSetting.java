@@ -54,6 +54,15 @@ public class ReviewBoardSetting implements PersistentStateComponent<ReviewBoardS
         private String companionUsername;
         private String companionPassword;
 
+        private String selectedrepository;
+
+        public String getSelectedrepository() {
+            return selectedrepository;
+        }
+
+        public void setSelectedrepository(String selectedrepository) {
+            this.selectedrepository = selectedrepository;
+        }
         public String getServerURL() {
             return serverURL;
         }

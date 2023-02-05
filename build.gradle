@@ -4,7 +4,7 @@ plugins {
 }
 
 group 'com.guyazhou'
-version '3.0.8'
+version '3.0.9'
 
 sourceCompatibility = 11   // Use jdk8 for compiling
 
@@ -36,14 +36,21 @@ patchPluginXml {
 
     changeNotes = """
 
+    <h4>3.0.9</h4>
+        <ol>modify by leilijuan.</ol>
+        <ol>When submitting, the repository defaults to the last selected repository, and required items are marked in red</ol>
+        <ol>Set to non-draft mode after submission</ol>
+        <ol>After submission, the submitted file path is displayed in the event log window</ol>
+        <ol>莫等闲白了少年头，空悲切！</ol>
+    
     <h4>3.0.8</h4>
-    <ol>remove deprecated API</ol>
+        <ol>remove deprecated API</ol>
 
     <h4>3.0.7</h4>
-    <ol>remove deprecated API</ol>
+        <ol>remove deprecated API</ol>
     
     <h4>3.0.6</h4>
-    <ol>modify plugin info </ol>
+        <ol>modify plugin info </ol>
     
     <h4>3.0.5</h4>
         <ol>modify by leilijuan.</ol>
@@ -83,35 +90,16 @@ patchPluginXml {
       """
 
     pluginDescription = """
-        <h2>Prerequisite</h2>
-            Review board version (Web API >= 2.0)
-            IntelliJ IDEA version (211.0 ~)
+        Review Board Code Review Tool
 
         <h2>Features</h2>
         <ul>
             <li>Support Subversion, Git</li>
             <li>Pre-commit review request to review board</li>
-            <li>Auto review for some users</li>
         </ul>
         <h2>About</h2>
-        
-        Review Board is an open source tool used to help with the peer review process for source code, documentation, images, and more. 
-        It’s web-based, extensible, and built to work with a wide variety of environments and source code management systems using pre-commit review and post-commit review methods.
-        
-        RBTools is offical tool ,it's a command line tool ,it's hard for use.
-        The plug-in provides a graphical interface for submitting code review content
-        
-        <h2>How to install</h2>
-        Downloading directly from plugin repositor
-        Find repository at File -> Settings -> Plugins, and typing in Review Board Support.
-       
-        the second way:
-        
-        Downloading from https://github.com/dll-110/review-board-support/releases
-        Find repository at File -> Settings -> Plugins, click setting button and selecte install plugin from disk and use the zip file befor you download .
-        
         <ul>
-            <li><a href="https://github.com/dll-110/review-board-support/blob/master/README.MD">Usage</a></li>
+            <li><a href="https://github.com/dll-110/review-board-support/blob/master/README.md">Usage</a></li>
             <li><a href="https://github.com/dll-110/review-board-support/issues">Issues</a></li>
         </ul>
     """

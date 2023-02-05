@@ -74,6 +74,17 @@ public class SubmitDialogForm extends DialogWrapper {
         if (possibleRepositoryIndex > -1) {
             repositoryBox.setSelectedIndex(possibleRepositoryIndex);
         }
+
+        String hisRepo = ReviewBoardSetting.getInstance().getState().getSelectedrepository();
+        if(hisRepo!=null && !hisRepo.equals("")){
+            for (int i = 0; i < repositoryBox.getItemCount(); i++) {
+                RepositoryComboBoxItem item = (RepositoryComboBoxItem)repositoryBox.getItemAt(i);
+                if(item.getRepository().getName().equals(hisRepo)){
+                    repositoryBox.setSelectedIndex(i);
+                    continue;
+                }
+            }
+        }
         newRequestRadioButton.setSelected(true);
         newRequestButtonSelected();
 

@@ -2,7 +2,7 @@
     <id>com.dll.tools.plugin.reviewboard</id>
     <name>Review Board Support Plus</name>
     <category>TOOLS INTEGRATION</category>
-    <vendor email="1035304449@qq.com" url="https://github.com/dll-110/review-board-support">大雷雷</vendor>
+    <vendor email="1035304449@qq.com" url="https://github.com/dll-110/review-board-support">leilijuan</vendor>
 
     <depends>com.intellij.modules.lang</depends>
     <depends>com.intellij.modules.vcs</depends>
@@ -10,7 +10,7 @@
     <depends>Git4Idea</depends>
 
     <extensions defaultExtensionNs="com.intellij">
-<!--        <toolWindow id="My Sample Tool Window" icon="/icons/logo.png" anchor="bottom" factoryClass="com.guyazhou.plugin.reviewboard.toolswindow.ReviewPanelToolWindowFactory"/>-->
+        <!--        <toolWindow id="My Sample Tool Window" icon="/icons/logo.png" anchor="bottom" factoryClass="com.guyazhou.plugin.reviewboard.toolswindow.ReviewPanelToolWindowFactory"/>-->
         <applicationService serviceImplementation="com.guyazhou.plugin.reviewboard.setting.ReviewBoardSetting"/>
         <applicationConfigurable instance="com.guyazhou.plugin.reviewboard.setting.ReviewBoardSetting"/>
         <notificationGroup id="review-board-support"

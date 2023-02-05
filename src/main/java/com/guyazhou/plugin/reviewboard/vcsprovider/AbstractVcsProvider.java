@@ -19,6 +19,8 @@ public abstract class AbstractVcsProvider implements VcsProvider {
     protected String workingCopyPathInRepository;
     protected String workingCopyDir;
 
+    protected String diffPaths;
+
     protected AbstractVcsProvider(AbstractVcs abstractVcs) {
         this.abstractVcs = abstractVcs;
     }
@@ -71,5 +73,8 @@ public abstract class AbstractVcsProvider implements VcsProvider {
      * @return diff string
      */
     protected abstract String generateDifferences(Project project, List<VirtualFile> virtualFiles);
-
+    @Override
+    public String getDiffPaths() {
+        return this.diffPaths;
+    }
 }

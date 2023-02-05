@@ -26,6 +26,7 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Svn vcs provider
@@ -135,6 +136,7 @@ public class SvnVcsProvider extends AbstractVcsProvider {
         this.repositoryURL = repositoryURL;
         this.workingCopyDir = localRootDir.getPath();
         this.workingCopyPathInRepository = workingCopyPath;
+        this.diffPaths = virtualFiles.stream().map(m->m.getPath()).collect(Collectors.joining("<br/>diff --old "));
     }
 
     /**
