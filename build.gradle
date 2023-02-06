@@ -38,10 +38,10 @@ patchPluginXml {
 
     <h4>3.0.9</h4>
         <ol>modify by leilijuan.</ol>
-        <ol>When submitting, the repository defaults to the last selected repository, and required items are marked in red</ol>
-        <ol>Set to non-draft mode after submission</ol>
-        <ol>After submission, the submitted file path is displayed in the event log window</ol>
-        <ol>Resolve error reporting:java.lang.NoSuchMethodException:org.jetbrains.idea.svn.info.Info.getURL()</ol>
+        <ol>1、When submitting, the repository defaults to the last selected repository, and required items are marked in red</ol>
+        <ol>2、Set to non-draft mode after submission</ol>
+        <ol>3、After submission, the submitted file path is displayed in the event log window</ol>
+        <ol>4、Resolve error reporting:java.lang.NoSuchMethodException:org.jetbrains.idea.svn.info.Info.getURL()</ol>
         <ol>莫等闲白了少年头，空悲切！</ol>
     
     <h4>3.0.8</h4>
