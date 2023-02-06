@@ -110,7 +110,7 @@ public class SubmitReviewRequestTask extends Task.Backgroundable {
                             + "%s"
                     , reviewParams.getReviewId()
                     , reviewUrl, reviewUrl
-                    , "<br/>diff -- " + vcsProvider.getDiffPaths()
+                    , "<br/>diff --old " + vcsProvider.getDiffPaths()
             );
             NotificationUtil.notifyInformationNotifaction("Submit Review Successfully", successInfoMsg, project);
         }
