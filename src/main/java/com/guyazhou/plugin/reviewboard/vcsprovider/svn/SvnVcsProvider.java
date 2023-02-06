@@ -97,12 +97,11 @@ public class SvnVcsProvider extends AbstractVcsProvider {
                 }
 
                 try {
-                    Method getUrl = info.getClass().getMethod("getURL");
-                    remoteRootSVNURL = getUrl.invoke(info);
+                    remoteRootSVNURL = info.getUrl();
 
                     repositoryRootSVNURL = info.getRepositoryRootUrl();
 
-                } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
+                } catch (Exception e) {
                     throw new RuntimeException(e);
                 }
 
