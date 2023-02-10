@@ -106,7 +106,7 @@ public class SubmitReviewRequestTask extends Task.Backgroundable {
         } else {
 //            String successInfoMsg = String.format("Review ID: %s<br/>Review URL: < a href=\"%s\">%s</ a>", reviewParams.getReviewId(), reviewUrl, reviewUrl);
             String successInfoMsg = String.format("Review ID: %s"
-                            + "<br/>Review URL: < a href=\"%s\">%s</ a>"
+                            + "<br/>Review URL: < a href=\"%s\">%s</a>"
                             + "%s"
                     , reviewParams.getReviewId()
                     , reviewUrl, reviewUrl
