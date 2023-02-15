@@ -117,7 +117,7 @@ public final class MyUnifiedDiffWriter {
                             break;
                     }
                     String text = line.getText();
-                    text =  StrUtil.trimEnd(text);
+                    //text =  StrUtil.trimEnd(text);
                     writeLine(writer, text, prefixChar);
                     if (line.isSuppressNewLine()) {
                         // do not use fileContentLineSeparator here, as this line has no own separator
