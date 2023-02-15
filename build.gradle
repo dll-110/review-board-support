@@ -4,7 +4,7 @@ plugins {
 }
 
 group 'com.guyazhou'
-version '3.0.9'
+version '3.1.0'
 
 sourceCompatibility = 11   // Use jdk8 for compiling
 
@@ -35,6 +35,10 @@ patchPluginXml {
     version = version
 
     changeNotes = """
+
+    <h4>3.1.0</h4>
+        <ol>The patch to XXX did not apply cleanly</ol>
+        <ol>傲游太空不重要，给爱的人一束花很重要</ol>
 
     <h4>3.0.9</h4>
         <ol>modify by leilijuan.</ol>
